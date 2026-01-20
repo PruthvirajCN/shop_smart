@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}ShopSmart{% endblock %}</title>
+  <link rel="icon" type="image/x-icon" href="{% static 'store/images/favicon.ico' %}">
+
+  <link rel="stylesheet" href="{% static 'store/css/style.css' %}">
+</head>
+
+<body>
+
+  <!-- ✅ NAVBAR -->
+  <header class="navbar">
+    <div class="nav-inner">
+
+      <a href="{% url 'home' %}" class="logo">ShopSmart</a>
+      <a href="{% url 'wishlist' %}">Wishlist</a>
+
+      <!-- ✅ Search -->
+      <form class="nav-search" method="GET" action="{% url 'products' %}">
+        <input type="text" name="q" placeholder="Search products..." />
+        <button type="submit">Search</button>
+      </form>
+
+      <!-- ✅ Links -->
+      <nav class="nav-links">
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'products' %}">Products</a>
+        <a class="cart-btn" href="{% url 'cart' %}">Cart</a>
+
+        {% if user.is_authenticated %}
+          <a href="{% url 'my_orders' %}">My Orders</a>
+          <a class="btn-outline" href="{% url 'logout' %}">Logout</a>
+        {% else %}
+          <a class="btn-outline" href="{% url 'login' %}">Login</a>
+        {% endif %}
+      </nav>
+
+    </div>
+  </header>
+
+  <!-- ✅ MAIN CONTENT -->
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- ✅ FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+
+      <div class="footer-col">
+        <h3>ShopSmart</h3>
+        <p>Modern e-commerce web app built using Django.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Support</h4>
+        <a href="#">Help Center</a>
+        <a href="#">Contact</a>
+        <a href="#">Returns</a>
+      </div>
+
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About</a>
+        <a href="#">Careers</a>
+        <a href="#">Privacy</a>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      © 2026 ShopSmart. All rights reserved.
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,112 @@
+{% extends "store/base.html" %}
+{% block title %}{{ product.name }} | ShopSmart{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <div class="detail-wrapper">
+
+    <!-- ✅ Product Image -->
+    <div class="detail-img-box">
+  {% if product.image %}
+    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="detail-img">
+  {% else %}
+    <div class="no-img">🛍️</div>
+  {% endif %}
+</div>
+
+    <!-- ✅ Product Info -->
+    <div class="detail-info">
+      <h2>{{ product.name }}</h2>
+      <p class="detail-price">₹{{ product.price }}</p>
+      <div class="rating-detail">
+        ⭐⭐⭐⭐☆ <span>(4.3 rating)</span>
+      </div>
+
+      {% if product.description %}
+        <p class="detail-desc">{{ product.description }}</p>
+      {% else %}
+        <p class="detail-desc">Premium product with best quality and fast delivery.</p>
+      {% endif %}
+
+      <a href="{% url 'add_to_cart' product.id %}" class="btn-cart-big">Add to Cart</a>
+    </div>
+    <hr style="margin:30px 0;">
+
+<h2 style="margin-bottom:10px;">⭐ Ratings & Reviews</h2>
+
+<p><b>Average Rating:</b> {{ avg_rating }}/5</p>
+
+{% if user.is_authenticated %}
+  <div class="review-form">
+    <h3>Add Your Review</h3>
+
+    <form method="POST" action="{% url 'add_review' product.id %}">
+      {% csrf_token %}
+
+      <label>Rating:</label>
+      <select name="rating">
+        <option value="5">⭐⭐⭐⭐⭐ (5)</option>
+        <option value="4">⭐⭐⭐⭐ (4)</option>
+        <option value="3">⭐⭐⭐ (3)</option>
+        <option value="2">⭐⭐ (2)</option>
+        <option value="1">⭐ (1)</option>
+      </select>
+
+      <textarea name="comment" placeholder="Write your review..." required></textarea>
+
+      <button type="submit" class="btn-cart2">Submit Review</button>
+    </form>
+  </div>
+{% else %}
+  <p><a href="{% url 'login' %}">Login</a> to add a review.</p>
+{% endif %}
+
+<div class="reviews-list">
+  {% for r in reviews %}
+    <div class="review-card">
+      <p><b>{{ r.user.username }}</b> ⭐ {{ r.rating }}/5</p>
+      <p>{{ r.comment }}</p>
+      <small>{{ r.created_at|date:"d M Y" }}</small>
+    </div>
+  {% empty %}
+    <p>No reviews yet.</p>
+  {% endfor %}
+</div>
+
+
+  </div>
+
+  <!-- ✅ Related products -->
+  <h3 class="related-title">Related Products</h3>
+
+  <div class="product-grid">
+    {% for rp in related_products %}
+      <div class="product-card">
+
+        <a href="{% url 'product_detail' rp.id %}" class="product-img">
+          {% if rp.image %}
+            <img src="{{ rp.image.url }}" alt="{{ rp.name }}">
+          {% else %}
+            <div class="img-placeholder">🛍️</div>
+          {% endif %}
+        </a>
+
+        <div class="product-body">
+          <h3 class="product-title">{{ rp.name }}</h3>
+          <p class="price">₹{{ rp.price }}</p>
+
+          <div class="product-actions">
+            <a href="{% url 'product_detail' rp.id %}" class="btn-view">View</a>
+            <a href="{% url 'add_to_cart' rp.id %}" class="btn-cart2">Add</a>
+          </div>
+        </div>
+
+      </div>
+    {% empty %}
+      <p>No related products.</p>
+    {% endfor %}
+  </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,99 @@
+{% extends "store/base.html" %}
+{% block title %}Home | ShopSmart{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+  <!-- ✅ HERO -->
+  <section class="hero-box">
+    <div class="hero-left">
+      <h1>Shop Smarter. Live Better.</h1>
+      <p>Discover premium products with modern UI, fast checkout, and smooth shopping experience.</p>
+
+      <div class="hero-btns">
+        <a href="{% url 'products' %}" class="btn-primary">Explore Products</a>
+        <a href="{% url 'products' %}" class="btn-secondary">View Offers</a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-mini-card">
+        <h3>🔥 Trending Today</h3>
+        <p>Up to <b>40% OFF</b> on Electronics</p>
+
+        <div class="mini-tags">
+          <span>Fast Delivery</span>
+          <span>Quality Items</span>
+          <span>Secure Checkout</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ✅ FEATURED PRODUCTS -->
+  <div class="section-head">
+    <div>
+      <h2>Featured Products</h2>
+      <p>Top picked items for you</p>
+    </div>
+
+    <a href="{% url 'products' %}" class="link-more">View All →</a>
+  </div>
+
+  <div class="product-grid">
+    {% for product in featured_products %}
+    <div class="product-card">
+  {% if user.is_authenticated %}
+    {% if product.id in wishlist_ids %}
+      <a class="heart-btn active" href="{% url 'wishlist' %}" title="Already in wishlist">❤️</a>
+    {% else %}
+      <a class="heart-btn" href="{% url 'add_to_wishlist' product.id %}" title="Add to wishlist">🤍</a>
+    {% endif %}
+  {% endif %}
+
+      <a href="{% url 'product_detail' product.id %}" class="product-img">
+        {% if product.image %}
+          <img src="{{ product.image.url }}" alt="{{ product.name }}">
+        {% else %}
+          <div class="img-placeholder">🛍️</div>
+        {% endif %}
+      </a>
+
+      <div class="product-body">
+        <h3 class="product-title">{{ product.name }}</h3>
+        <div class="price-row">
+           <p class="price">₹{{ product.price }}</p>
+          <span class="badge">Best Seller</span>
+        </div>
+
+        <div class="rating">
+           ⭐⭐⭐⭐☆ <span>(4.3)</span>
+        </div>
+
+
+        <div class="product-actions">
+  <a class="btn-view" href="{% url 'product_detail' product.id %}">View</a>
+  <a class="btn-cart2" href="{% url 'add_to_cart' product.id %}">Add</a>
+</div>
+
+<a class="wish-btn" href="{% url 'add_to_wishlist' product.id %}">❤️ Wishlist</a>
+
+      </div>
+
+    </div>
+    {% empty %}
+      <p>No products available.</p>
+    {% endfor %}
+  </div>
+<div class="product-img">
+  {% if product.image %}
+    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+  {% else %}
+    <div class="no-img">🛍️</div>
+  {% endif %}
+</div>
+
+</div>
+
+{% endblock %}

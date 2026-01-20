@@ -1,0 +1,108 @@
+{% extends "store/base.html" %}
+{% block title %}Products | ShopSmart{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <!-- ✅ Page Header -->
+  <div class="page-head">
+    <div>
+      <h2>All Products</h2>
+      <p class="sub-text">Browse premium products with smooth shopping experience.</p>
+    </div>
+
+    <!-- ✅ Filter + Search -->
+    <form method="GET" action="{% url 'products' %}" class="filter-bar">
+
+      <select name="category">
+        <option value="">All Categories</option>
+        {% for cat in categories %}
+          <option value="{{ cat.id }}"
+            {% if request.GET.category == cat.id|stringformat:"s" %}selected{% endif %}>
+            {{ cat.name }}
+          </option>
+        {% endfor %}
+      </select>
+
+      <input type="text" name="q" placeholder="Search products..." value="{{ request.GET.q }}">
+      <select name="sort">
+  <option value="">Sort By</option>
+  <option value="new" {% if request.GET.sort == "new" %}selected{% endif %}>Newest</option>
+  <option value="price_low" {% if request.GET.sort == "price_low" %}selected{% endif %}>Price: Low to High</option>
+  <option value="price_high" {% if request.GET.sort == "price_high" %}selected{% endif %}>Price: High to Low</option>
+  <option value="az" {% if request.GET.sort == "az" %}selected{% endif %}>A to Z</option>
+  <option value="za" {% if request.GET.sort == "za" %}selected{% endif %}>Z to A</option>
+</select>
+
+      <button type="submit">Search</button>
+
+    </form>
+  </div>
+
+  <!-- ✅ Product Grid -->
+  <div class="product-grid">
+    {% for product in products %}
+      <div class="product-card">
+
+        <a href="{% url 'product_detail' product.id %}" class="product-img">
+          {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+          {% else %}
+            <div class="img-placeholder">🛍️</div>
+          {% endif %}
+        </a>
+
+        <div class="product-body">
+          <h3 class="product-title">{{ product.name }}</h3>
+          <div class="price-row">
+            <p class="price">₹{{ product.price }}</p>
+             <span class="badge">Best Seller</span>
+          </div>
+
+          <div class="rating">
+             ⭐⭐⭐⭐☆ <span>(4.3)</span>
+          </div>
+
+
+          <div class="product-actions">
+  <a class="btn-view" href="{% url 'product_detail' product.id %}">View</a>
+  <a class="btn-cart2" href="{% url 'add_to_cart' product.id %}">Add</a>
+</div>
+
+<a class="wish-btn" href="{% url 'add_to_wishlist' product.id %}">❤️ Wishlist</a>
+
+        </div>
+<!-- ✅ Pagination -->
+<div class="pagination">
+  {% if products.has_previous %}
+    <a href="?page={{ products.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">
+      ⬅ Previous
+    </a>
+  {% endif %}
+
+  <span class="page-info">
+    Page {{ products.number }} of {{ products.paginator.num_pages }}
+  </span>
+
+  {% if products.has_next %}
+    <a href="?page={{ products.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">
+      Next ➡
+    </a>
+  {% endif %}
+</div>
+
+      </div>
+    {% empty %}
+      <p>No products found.</p>
+    {% endfor %}
+  </div>
+<div class="product-img">
+  {% if product.image %}
+    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+  {% else %}
+    <div class="no-img">🛍️</div>
+  {% endif %}
+</div>
+
+</div>
+{% endblock %}

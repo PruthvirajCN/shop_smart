@@ -1,0 +1,67 @@
+{% extends "store/base.html" %}
+{% block title %}My Orders | ShopSmart{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <h2 class="page-title">📦 My Orders</h2>
+
+  {% if orders %}
+    <div class="orders-wrapper">
+
+      {% for order in orders %}
+      <div class="order-card">
+
+        <div class="order-top">
+          <div>
+            <p class="order-id">Order #{{ order.id }}</p>
+            <p class="order-date">Placed on {{ order.created_at|date:"d M Y" }}</p>
+          </div>
+
+          <span class="status-badge status-{{ order.status|lower }}">
+            {{ order.status }}
+          </span>
+        </div>
+
+        <!-- ✅ Items -->
+        <div class="order-items">
+          {% for item in order.items.all %}
+          <div class="order-item-row">
+            <div class="order-item-img">
+              {% if item.product.image %}
+                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+              {% else %}
+                <div class="no-img-sm">🛍️</div>
+              {% endif %}
+            </div>
+
+            <div class="order-item-info">
+              <p class="order-item-name">{{ item.product.name }}</p>
+              <p class="order-item-meta">Qty: {{ item.quantity }} × ₹{{ item.price }}</p>
+            </div>
+
+            <div class="order-item-total">
+              ₹{{ item.price|floatformat:2 }}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <hr>
+
+        <div class="order-footer">
+          <p><b>Total:</b> ₹{{ order.total_price|floatformat:2 }}</p>
+          <p><b>Address:</b> {{ order.address }}</p>
+        </div>
+
+      </div>
+      {% endfor %}
+
+    </div>
+
+  {% else %}
+    <p class="empty-msg">No orders found.</p>
+  {% endif %}
+
+</div>
+{% endblock %}

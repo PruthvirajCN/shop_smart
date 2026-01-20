@@ -1,0 +1,41 @@
+{% extends "store/base.html" %}
+{% block title %}Checkout | ShopSmart{% endblock %}
+
+{% block content %}
+
+<h2 class="cart-title">Checkout</h2>
+
+<div class="checkout-wrapper">
+
+  <!-- ✅ Form -->
+  <div class="checkout-form">
+    <h3>Delivery Details</h3>
+
+    <form method="POST">
+      {% csrf_token %}
+
+      <input type="text" name="full_name" placeholder="Full Name" required>
+      <input type="text" name="phone" placeholder="Phone Number" required>
+      <textarea name="address" placeholder="Full Address" required></textarea>
+
+      <button type="submit" class="checkout-btn">Place Order ✅</button>
+    </form>
+  </div>
+
+  <!-- ✅ Summary -->
+  <div class="cart-summary">
+    <h3>Order Summary</h3>
+
+    {% for item in items %}
+      <p>{{ item.product.name }} (x{{ item.quantity }}) <span>₹{{ item.product.price }}</span></p>
+    {% endfor %}
+
+    <hr>
+    <p>Subtotal: <span>₹{{ subtotal|floatformat:2 }}</span></p>
+    <p>Tax (5%): <span>₹{{ tax|floatformat:2 }}</span></p>
+    <p class="total">Total: <span>₹{{ total|floatformat:2 }}</span></p>
+  </div>
+
+</div>
+
+{% endblock %}

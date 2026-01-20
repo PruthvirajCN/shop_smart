@@ -1,0 +1,47 @@
+{% extends "store/base.html" %}
+{% block title %}Wishlist | ShopSmart{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <h2 class="cart-title">❤️ My Wishlist</h2>
+
+  {% if wishlist_items %}
+    <div class="product-grid">
+      {% for item in wishlist_items %}
+      <div class="product-card">
+
+        <a href="{% url 'product_detail' item.product.id %}" class="product-img">
+          {% if item.product.image %}
+            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+          {% else %}
+            <div class="img-placeholder">🛍️</div>
+          {% endif %}
+        </a>
+
+        <div class="product-body">
+          <h3 class="product-title">{{ item.product.name }}</h3>
+
+          <div class="price-row">
+            <p class="price">₹{{ item.product.price }}</p>
+            <span class="badge">Wishlisted</span>
+          </div>
+
+          <div class="product-actions">
+            <a href="{% url 'add_to_cart' item.product.id %}" class="btn-cart2">Add</a>
+            <a href="{% url 'remove_from_wishlist' item.id %}" class="btn-view">Remove</a>
+          </div>
+        </div>
+
+      </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>Your wishlist is empty.</p>
+    <a href="{% url 'products' %}" class="btn-primary" style="display:inline-block;margin-top:12px;">
+      Explore Products
+    </a>
+  {% endif %}
+
+</div>
+{% endblock %}
