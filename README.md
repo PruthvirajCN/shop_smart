@@ -123,12 +123,13 @@ shop_smart/
 
 <img width="1919" height="1007" alt="Screenshot 2026-01-27 202459" src="https://github.com/user-attachments/assets/ed921ed1-ef18-4c27-a4d8-1bbbe8dca1a3" />
 
----
+<img width="1920" height="1080" alt="Screenshot 2026-01-27 202523" src="https://github.com/user-attachments/assets/23794c04-d312-4e4d-8498-ceffcdef78fd" />
+
 
 ## 🚀 Installation & Setup (Run Locally)
 
 ### ✅ 1. Clone Repository
-```bash
+
 git clone https://github.com/PruthvirajCN/shop_smart.git
 cd shop_smart
 
