@@ -121,6 +121,7 @@ shop_smart/
 │── requirements.txt # Dependencies
 │── db.sqlite3 # Database (not recommended for GitHub)
 
+<img width="1919" height="1007" alt="Screenshot 2026-01-27 202459" src="https://github.com/user-attachments/assets/ed921ed1-ef18-4c27-a4d8-1bbbe8dca1a3" />
 
 ---
 
@@ -153,8 +154,5 @@ python manage.py createsuperuser
 ✅ 6. Run Server
 python manage.py runserver
 
-<img width="1919" height="1007" alt="Screenshot 2026-01-27 202459" src="https://github.com/user-attachments/assets/79958bcb-0d4a-4080-9b6f-e0577c54cc5c" />
-
-<img width="1920" height="1080" alt="Screenshot 2026-01-27 202523" src="https://github.com/user-attachments/assets/4f7bf3a3-477a-4e47-a5b7-0ea71be47ac0" />
 
 
